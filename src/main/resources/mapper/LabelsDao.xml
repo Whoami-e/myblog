@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whoami.myblog.dao.LabelsDao">
+  <resultMap id="BaseResultMap" type="com.whoami.myblog.entity.Labels">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, `name`, `count`, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_labels
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByName" resultType="com.whoami.myblog.entity.Labels" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_labels
+    where `name` = #{label,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAll" resultType="com.whoami.myblog.entity.Labels" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_labels
+    order by `count` desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_labels
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" keyColumn="id" parameterType="com.whoami.myblog.entity.Labels">
+    insert into tb_labels (id, `name`, `count`, create_time,
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.whoami.myblog.entity.Labels" useGeneratedKeys="true">
+    insert into tb_labels
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="count != null">
+        `count`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.whoami.myblog.entity.Labels">
+    update tb_labels
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        `count` = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.whoami.myblog.entity.Labels">
+    update tb_labels
+    set `name` = #{name,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByLabelName"  parameterType="java.lang.String">
+    update tb_labels
+    set `count` = `count` + 1
+    where `name` = #{label,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whoami.myblog.dao.RefreshTokenDao">
+
+  <resultMap id="BaseResultMap" type="com.whoami.myblog.entity.RefreshToken">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="token_key" jdbcType="VARCHAR" property="tokenKey" />
+    <result column="mobile_token_key" jdbcType="VARCHAR" property="mobileTokenKey" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, refresh_token, user_id, mobile_token_key, token_key, create_time, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_refresh_token
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByTokenKey" resultType="com.whoami.myblog.entity.RefreshToken" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_refresh_token
+    where token_key = #{tokenKey,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByUserId" resultType="com.whoami.myblog.entity.RefreshToken" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_refresh_token
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByMobileTokenKey" resultType="com.whoami.myblog.entity.RefreshToken"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_refresh_token
+    where mobile_token_key = #{mobileTokenKey,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_refresh_token
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+    delete from tb_refresh_token
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByTokenKey" parameterType="java.lang.String">
+    delete from tb_refresh_token
+    where token_key = #{tokenKey,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" keyColumn="id" parameterType="com.whoami.myblog.entity.RefreshToken">
+    insert into tb_refresh_token (id,refresh_token, user_id, token_key, mobile_token_key,
+      create_time, update_time)
+    values (#{id,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{tokenKey,jdbcType=VARCHAR}, #{mobileTokenKey,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" parameterType="com.whoami.myblog.entity.RefreshToken">
+    insert into tb_refresh_token
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="refreshToken != null">
+        refresh_token,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="tokenKey != null">
+        token_key,
+      </if>
+      <if test="mobileTokenKey != null">
+        mobile_token_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null">
+        #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenKey != null">
+        #{tokenKey,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTokenKey != null">
+        #{mobile_token_key,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.whoami.myblog.entity.RefreshToken">
+    update tb_refresh_token
+    <set>
+      <if test="refreshToken != null">
+        refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenKey != null">
+        token_key = #{tokenKey,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTokenKey != null">
+        mobile_token_key = #{mobileTokenKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.whoami.myblog.entity.RefreshToken">
+    update tb_refresh_token
+    set refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      token_key = #{tokenKey,jdbcType=VARCHAR},
+      mobile_token_key = #{mobileTokenKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="deleteMobileTokenKey" parameterType="java.lang.String">
+    update tb_refresh_token
+    set mobile_token_key = ""
+    where mobile_token_key = #{tokenKey,jdbcType=VARCHAR}
+  </update>
+
+  <update id="deletePCTokenKey" parameterType="java.lang.String">
+    update tb_refresh_token
+    set token_key = ""
+    where token_key = #{tokenKey,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

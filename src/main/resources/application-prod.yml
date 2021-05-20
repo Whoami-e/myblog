@@ -1,0 +1,35 @@
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+spring:
+  application:
+    name:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.26.192:3306/my_blog?serverTimezone=UTC
+    username: root
+    password: root1234
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    host: 192.168.26.60
+    port: 6379
+    database: 1
+  data:
+    solr:
+      host: http://192.168.26.60:8983/solr/sob_blog_core
+
+logging:
+  level:
+    com.whoami.myblog.dao: DEBUG
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.whoami.myblog.entity
+
+my.blog.image.save-path: /opt/myBlog/upload
+
+my.blog.image.max-size: 2097152
+
+my.blog.logPath: myblog.log
